@@ -1,9 +1,14 @@
-import React from 'react'
 import { MdFastfood } from "react-icons/md";
 import { IoSearch } from "react-icons/io5";
 import { LuShoppingBag } from "react-icons/lu";
+import { useSelector, useDispatch } from "react-redux";
+import { setSearchQuery } from "../store/searchSlice";
 
 function Nav() {
+	const dispatch = useDispatch();
+	const query = useSelector(state => state.search.query);
+
+	
 	return (
 		<div className='w-full h-[100px] flex justify-between items-center px-5 md:px-8'>
 			<div className='w-[60px] h-[60px] bg-white flex justify-center items-center rounded-md shadow-xl'>
@@ -15,6 +20,8 @@ function Nav() {
 					type='text'
 					placeholder='Search Items...'
 					className='w-[100%] outline-none text-[16px] md:text-[20px]'
+					value={query}
+					onChange={e => dispatch(setSearchQuery(e.target.value))}
 				/>
 			</form>
 			<div className='w-[60px] h-[60px] bg-white flex justify-center items-center rounded-md shadow-xl relative'>

@@ -19,7 +19,7 @@ export const categories = [
     },
     {
         id: 3,
-        name: 'Soup',
+        name: 'Soups',
         icon: <TbSoup className='w-[60px] h-[60px] text-green-600'/>
     },
     {

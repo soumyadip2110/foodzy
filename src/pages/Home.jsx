@@ -3,9 +3,14 @@ import { Card, Nav } from '../components/index'
 import { categories } from '../Categories'
 import { food_items } from '../food'
 import { useSelector } from 'react-redux'
+import { RxCross2 } from "react-icons/rx";
+import { useDispatch } from 'react-redux'
+import { setShowCart } from '../store/showCartSlice'
 
 function Home() {
+    const dispatch = useDispatch();
     const query = useSelector(state => state.search.query.toLowerCase())
+    const show = useSelector(state => state.cart.show)
     const [menu, setMenu] = useState(food_items)
     const [isSearching, setIsSearching] = useState(false)
 
@@ -63,6 +68,16 @@ function Home() {
                         type={item.food_type}
                     />
                 ))}
+            </div>
+            
+            <div className={`w-[40vw] h-[100%] fixed top-0 right-0 bg-white shadow-xl p-6 ${show ? 'translate-x-0' : 'translate-x-full'} transition-all duration-500`}>
+                <header className='w-[100%] flex justify-between items-center'>
+                    <span className='text-green-400 font-semibold text-[18px]'>Order items</span>
+                    <RxCross2
+                        className='w-[30px] h-[30px] text-green-400 font-semibold text-[18px] cursor-pointer hover:text-gray-600'
+                        onClick={() => dispatch(setShowCart(false))}
+                    />
+                </header>
             </div>
         </div>
     )

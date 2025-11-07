@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Card, Nav } from '../components/index'
+import { Card, CartCard, Nav } from '../components/index'
 import { categories } from '../Categories'
 import { food_items } from '../food'
 import { useSelector } from 'react-redux'
@@ -10,7 +10,9 @@ import { setShowCart } from '../store/showCartSlice'
 function Home() {
     const dispatch = useDispatch();
     const query = useSelector(state => state.search.query.toLowerCase())
-    const show = useSelector(state => state.cart.show)
+    const show = useSelector(state => state.showCart.show)
+    const cartItems = useSelector(state => state.cart)
+
     const [menu, setMenu] = useState(food_items)
     const [isSearching, setIsSearching] = useState(false)
 
@@ -26,11 +28,11 @@ function Home() {
     }
 
     useEffect(() => {
-        if (query.trim() === ''){
+        if (query.trim() === '') {
             setIsSearching(false)
             setMenu(food_items);
         }
-        else{
+        else {
             setIsSearching(true)
             setMenu(
                 food_items.filter(item => (
@@ -48,7 +50,7 @@ function Home() {
                     {categories.map(item => (
                         <div
                             key={item.id}
-                            className='w-[140px] h-[150px] bg-white flex flex-col items-center gap-5 justify-center text-[20px] font-semibold text-gray-600 rounded-lg shadow-xl hover:bg-green-200 cursor-pointer transition-all'
+                            className='w-[100px] h-[100px] md:w-[140px] md:h-[150px] bg-white flex flex-col items-center gap-3 justify-center text-[15px] md:text-[20px] font-semibold text-gray-600 rounded-lg shadow-xl hover:bg-green-200 cursor-pointer transition-all'
                             onClick={() => filterMenu(item.name)}
                         >
                             {item.icon}
@@ -56,7 +58,7 @@ function Home() {
                         </div>
                     ))}
                 </div>
-                ) : null
+            ) : null
             }
             <div className='w-full flex flex-wrap gap-5 px-5 py-8 justify-center items-center'>
                 {menu.map(item => (
@@ -64,13 +66,14 @@ function Home() {
                         key={item.id}
                         name={item.food_name}
                         image={item.food_image}
+                        id={item.id}
                         price={item.price}
                         type={item.food_type}
                     />
                 ))}
             </div>
-            
-            <div className={`w-[40vw] h-[100%] fixed top-0 right-0 bg-white shadow-xl p-6 ${show ? 'translate-x-0' : 'translate-x-full'} transition-all duration-500`}>
+
+            <div className={`w-full md:w-[40vw] h-[100%] fixed top-0 right-0 bg-white shadow-xl p-6 ${show ? 'translate-x-0' : 'translate-x-full'} transition-all duration-500`}>
                 <header className='w-[100%] flex justify-between items-center'>
                     <span className='text-green-400 font-semibold text-[18px]'>Order items</span>
                     <RxCross2
@@ -78,6 +81,18 @@ function Home() {
                         onClick={() => dispatch(setShowCart(false))}
                     />
                 </header>
+                <div className='w-full mt-9 flex flex-col gap-8'>
+                    {cartItems.map(item => (
+                        <CartCard
+                            key={item.id}
+                            id={item.id}
+                            name={item.name}
+                            price={item.price}
+                            qty={item.qty}
+                            image={item.image}
+                        />
+                    ))}
+                </div>
             </div>
         </div>
     )

@@ -16,7 +16,7 @@ function Home() {
     const [menu, setMenu] = useState(food_items)
     const [isSearching, setIsSearching] = useState(false)
 
-    let subTotal = cartItems.reduce((total, item) => total + item.price, 0);
+    let subTotal = cartItems.reduce((total, item) => total + (item.price * item.qty), 0);
     let deliveryCharge = 20;
     let taxes = parseFloat((subTotal * 0.05).toFixed(2));
     let total = Math.floor(subTotal + deliveryCharge + taxes);

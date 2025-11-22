@@ -1,7 +1,7 @@
 import React from 'react'
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useDispatch } from 'react-redux';
-import { removeItem } from '../store/cartSlice';
+import { decrementItem, incrementItem, removeItem } from '../store/cartSlice';
 
 function CartCard({ id, name, price, qty, image }) {
     const dispatch = useDispatch();
@@ -15,13 +15,16 @@ function CartCard({ id, name, price, qty, image }) {
                 <div className='w-[40%] h-full flex flex-col gap-3'>
                     <div className=''>{name}</div>
                     <div className='w-[110px] h-[50px] bg-slate-400 flex rounded-lg overflow-hidden shadow-lg font-semibold border-2 border-green-400 text-green-400 text-xl'>
-                        <button className='w-[30%] h-full bg-white flex justify-center items-center hover:bg-gray-200 cursor-pointer'>
+                        <button
+                            className='w-[30%] h-full bg-white flex justify-center items-center hover:bg-gray-200 cursor-pointer'
+                            onClick={() => dispatch(qty === 1 ? removeItem(id) : decrementItem(id))}
+                        >
                             -
                         </button>
                         <span className='w-[40%] h-full bg-slate-200 flex justify-center items-center'>
                             {qty}
                         </span>
-                        <button className='w-[30%] h-full bg-white flex justify-center items-center hover:bg-gray-200 cursor-pointer'>
+                        <button className='w-[30%] h-full bg-white flex justify-center items-center hover:bg-gray-200 cursor-pointer' onClick={() => dispatch(incrementItem(id))}>
                             +
                         </button>
                     </div>
